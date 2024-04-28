@@ -1,96 +1,42 @@
 import { useRef, useEffect, useState } from 'react'
 import './style.css'
 import ProTable from '@ant-design/pro-table';
-import { Input, Button } from 'antd'
-const arr = new Array(20).fill(1).map((v, i) => {
-  return {
-    key: i,
-    value: v
-  };
-});
-const mock = arr
+import { Button } from 'antd'
+import { getModels } from '../api/module'
+
 
 function ModelTable() {
 
   const actionRef = useRef();
   const columns = [
     {
-      title: 'ModelTable',
+      title: '模型名称',
       dataIndex: 'name',
       key: 'name',
       valueType: 'text',
+      width: '25%',
+    },
+    {
+      title: '所属模块',
+      dataIndex: 'moduleId',
+      key: 'moduleId',
+      valueType: 'text',
+      width: '25%',
+
     },
     {
       title: '描述',
-      dataIndex: 'description',
-      key: 'description',
-      valueType: 'textarea',
+      dataIndex: 'remark',
+      key: 'remark',
+      valueType: 'text',
+      width: '25%',
+
     },
-    {
-      title: '年龄',
-      dataIndex: 'age',
-      key: 'age',
-      valueType: 'digit',
-    },
-    {
-      title: '价格',
-      dataIndex: 'price',
-      key: 'price',
-      valueType: 'money',
-    },
-    {
-      title: '创建日期',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-      valueType: 'date',
-    },
-    {
-      title: '更新时间',
-      dataIndex: 'updatedAt',
-      key: 'updatedAt',
-      valueType: 'dateTime',
-    },
-    {
-      title: '状态',
-      dataIndex: 'status',
-      key: 'status',
-      valueType: 'select',
-      valueEnum: {
-        0: { text: '未开始', status: 'Default' },
-        1: { text: '进行中', status: 'Processing' },
-        2: { text: '已完成', status: 'Success' },
-        3: { text: '已取消', status: 'Error' },
-      },
-    },
-    {
-      title: 'renderFormItem',
-      dataIndex: 'age2',
-      key: 'age2',
-      valueType: 'age2',
-      width: '300px',
-      renderFormItem: (_, { type, defaultRender, fieldProps, }, form) => {
-        if (type === 'form') {
-          return null;
-        }
-        const status = form.getFieldValue('state');
-        if (status !== 'open') {
-          return (
-            // value 和 onchange 会通过 form 自动注入。
-            <Input
-              // 组件的配置
-              {...fieldProps}
-              // 自定义配置
-              placeholder="renderFormItem渲染的结果"
-            />
-          );
-        }
-        return defaultRender(_);
-      },
-    },
+
     {
       title: '操作',
       key: 'option',
-      width: 120,
+      // width: '100px',
       fixed: "right",
       valueType: 'option',
       // eslint-disable-next-line no-unused-vars
@@ -105,6 +51,7 @@ function ModelTable() {
 
   const [searchHeight, setSearchHeight] = useState(0);
   const [collapsed, setCollapsed] = useState(true);
+
   useEffect(() => {
     const handleResize = () => {
       // 使用 setTimeout 延迟执行获取高度的操作
@@ -123,7 +70,7 @@ function ModelTable() {
   }, [collapsed]);
 
 
-  const scroll = { x: 500, y: `calc(100vh - (${searchHeight}px + 420px))` }
+  const scroll = { y: `calc(100vh - (${searchHeight}px + 420px))` }
   const pagination = {
     size: "default",
     defaultPageSize: 10,
@@ -156,27 +103,22 @@ function ModelTable() {
         ]}
         scroll={scroll}
         search={search}
-        request={async (params, sort, filter) => {
+        request={async (params) => {
 
           try {
-            // const msg = await myQuery({
-            //   page: params.current,
-            //   pageSize: params.pageSize,
-            // });
-            // return {
-            //   data: msg.result,
-            //   success: true, // 需要返回 true 表示成功
-            //   total: msg.total, // 如果使用分页，需要传入 total
-
+            const msg = await getModels({
+              page: params.current,
+              pageSize: params.pageSize,
+            });
+            console.log('msg: ', msg);
             return {
-              data: mock,
+              data: msg.list,
               success: true, // 需要返回 true 表示成功
-              total: 100, // 如果使用分页，需要传入 total
+              total: msg.total, // 如果使用分页，需要传入 total
             };
-            // };
           } catch (error) {
             return {
-              data: mock,
+              data: [],
               success: true, // 需要返回 true 表示成功
               total: 0, // 如果使用分页，需要传入 total
             };

@@ -188,7 +188,12 @@ export const generateCode = (params) => {
   return api.sendRequest({
     url: '/model/generate',
     method: 'post',
-    params: { ...params }
+    params: { ...params },
+    headers: {
+      'Content-Type': 'application/json; application/octet-stream'
+    },
+    responseType: 'blob',
+
   })
     .then(response => {
       return response.data

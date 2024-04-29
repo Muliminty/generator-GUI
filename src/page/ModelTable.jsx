@@ -57,10 +57,24 @@ function ModelTable() {
           setOpen(true)
         }} >编辑</Button>,
         // eslint-disable-next-line react/jsx-key
-        <Button type='link' onClick={() => {
-          console.log('record: ', record);
+        <Button type='link' onClick={async () => {
           const module = moduleData.find((m) => m.id === record.moduleId);
-          generateCode({ ...record, moduleName: `${module.name}` })
+          try {
+            const data = await generateCode({ ...record, moduleName: `${module.name}` })
+
+            const link = document.createElement('a');
+            const url = `http://${data.IP}:3000/${data.name}`
+            link.href = url;
+
+            // 模拟点击该链接，触发下载
+            link.click();
+
+            // 清理 URL 对象
+            window.URL.revokeObjectURL(url);
+          } catch (error) {
+            console.log('Error generating code:', error);
+          }
+
         }}> 生成代码</Button>,
         // eslint-disable-next-line react/jsx-key
         <Button type='link' danger onClick={

@@ -2,17 +2,19 @@ import { useRef, useEffect, useState } from 'react'
 import './style.css'
 import ProTable from '@ant-design/pro-table';
 import { Button } from 'antd'
-import { getModels } from '../api/module'
+import { getModels, getModule } from '../api/module'
 
 
 function ModelTable() {
 
   const actionRef = useRef();
+  const [moduleData, setModuleData] = useState([]);
+
   const columns = [
     {
-      title: '模型名称',
-      dataIndex: 'name',
-      key: 'name',
+      title: '英文名称',
+      dataIndex: 'engName',
+      key: 'engName',
       valueType: 'text',
       width: '25%',
     },
@@ -20,12 +22,16 @@ function ModelTable() {
       title: '所属模块',
       dataIndex: 'moduleId',
       key: 'moduleId',
-      valueType: 'text',
+      valueType: 'select',
       width: '25%',
-
+      render: (e, k) => {
+        const module = moduleData.find((m) => m.id === k.moduleId);
+        return module ? module.name : '-'
+      },
+      valueEnum: moduleData.reduce((acc, cur) => { acc[cur.id] = { text: cur.name }; return acc }, {})
     },
     {
-      title: '描述',
+      title: '中文描述',
       dataIndex: 'remark',
       key: 'remark',
       valueType: 'text',
@@ -49,6 +55,20 @@ function ModelTable() {
     },
   ]
 
+  const fetchModuleData = async () => {
+    try {
+      const msg = await getModule({ page: 1, pageSize: 1000 });
+
+      setModuleData(msg.list);
+    } catch (error) {
+      setModuleData([]);
+    }
+  }
+
+
+  useEffect(() => {
+    fetchModuleData()
+  }, [])
   const [searchHeight, setSearchHeight] = useState(0);
   const [collapsed, setCollapsed] = useState(true);
 
@@ -110,7 +130,7 @@ function ModelTable() {
               page: params.current,
               pageSize: params.pageSize,
             });
-            console.log('msg: ', msg);
+
             return {
               data: msg.list,
               success: true, // 需要返回 true 表示成功

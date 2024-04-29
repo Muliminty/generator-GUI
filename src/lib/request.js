@@ -48,16 +48,14 @@ api.interceptors.response.use(
 api.sendRequest = ({ url, method, params }) => {
   let requestUrl = url;
   if (method === 'get') {
-    console.log('url: ', url);
-
-    console.log('params: ', params);
     const u = buildUrlWithParams(params);
     requestUrl = `${url}?${u}`
   }
 
   return api({
     url: requestUrl,
-    method: method
+    method: method,
+    params: method === 'get' ? {} : params
   });
 };
 

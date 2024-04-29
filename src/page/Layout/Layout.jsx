@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
+  // UploadOutlined,
+  // UserOutlined,
+  // VideoCameraOutlined,
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
 const { Header, Sider, Content } = Layout;
@@ -107,8 +107,8 @@ const AntdLayout = () => {
                   />
                 </>
               })}
+              <Route path="/" element={<Navigate to="/ModuleTable" />} />
             </Routes>
-
           </Content>
         </Layout>
       </Layout>

@@ -2,7 +2,9 @@ import { useRef, useEffect, useState } from 'react'
 import './style.css'
 import ProTable from '@ant-design/pro-table';
 import { Button } from 'antd'
-import { getModule } from '../api/module'
+import { getModule, deleteModule, addModule, editModule } from '../api/module'
+import { showPromiseConfirm } from '../component/showPromiseConfirm.jsx'
+import AddModal from '../component/AddModal.jsx'
 /**
  * 模块组件
  *
@@ -18,6 +20,7 @@ function ModuleTable() {
       key: 'name',
       valueType: 'text',
       width: '40%',
+      editable: true,
       // hideInSearch: true,
     },
     {
@@ -26,8 +29,8 @@ function ModuleTable() {
       key: 'code',
       valueType: 'text',
       width: '40%',
+      editable: true,
       // hideInSearch: true,
-
     },
     {
       title: '操作',
@@ -38,9 +41,24 @@ function ModuleTable() {
       // eslint-disable-next-line no-unused-vars
       render: (_, record) => [
         // eslint-disable-next-line react/jsx-key
-        <Button type='link'>编辑</Button>,
+        <Button type='link' onClick={() => {
+          setValue(record)
+          setOpen(true)
+        }} >编辑</Button>,
         // eslint-disable-next-line react/jsx-key
-        <Button type='link' danger>删除</Button>,
+        <Button type='link' danger onClick={
+          () => {
+            console.log('record: ', record);
+            showPromiseConfirm({
+              title: '确认删除？',
+              content: '删除后将无法恢复',
+              ok: async () => {
+                await deleteModule({ id: record.id })
+                actionRef.current?.reload()
+              }
+            })
+          }
+        }>删除</Button>,
       ],
     },
   ]
@@ -80,16 +98,37 @@ function ModuleTable() {
     },
     defaultCollapsed: true,
   }
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
   return (
     <div className='TableDemo'>
-
-      <ProTable
+      <AddModal
+        title={value ? '编辑模块' : '新建模块'}
+        open={open}
+        value={value}
+        columns={columns}
+        ok={async (values, resetFields) => {
+          console.log('values: ', values);
+          value ? await editModule({ id: value.id, ...values }) : await addModule(values)
+          await actionRef.current?.reload()
+          setValue(null)
+          resetFields()
+          setOpen(false)
+        }}
+        cancel={() => {
+          setOpen(false)
+        }}
+      />
+      < ProTable
         className='zk-pro-table-custom'
         columns={columns}
         actionRef={actionRef}
         pagination={pagination}
         toolBarRender={() => [
-          <Button key="button" type="primary">
+          <Button key="button" type="primary" onClick={() => {
+            setOpen(true)
+          }}>
             新建
           </Button>,
         ]}

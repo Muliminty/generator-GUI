@@ -8,12 +8,12 @@ function ModelPropsTable() {
 
   const actionRef = useRef();
   const columns = [
-    {
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'id',
-      width: 200,
-    },
+    // {
+    //   title: '模型属性ID',
+    //   dataIndex: 'id',
+    //   key: 'id',
+    //   width: 200,
+    // },
     {
       title: '模型ID',
       dataIndex: 'modelId',
@@ -25,10 +25,7 @@ function ModelPropsTable() {
       dataIndex: 'key',
       key: 'key',
       width: 200,
-      render: (e, k) => {
-        console.log('k: ', k);
-        console.log('e: ', e);
-      }
+      render: (e, k) => k.engName || '-'
     },
     {
       title: '属性名称',
@@ -53,21 +50,21 @@ function ModelPropsTable() {
       dataIndex: 'showInSearch',
       key: 'showInSearch',
       width: 200,
-      render: (showInSearch) => (showInSearch ? '是' : '否'),
+      render: (e, k) => k.showInSearch || '-'
     },
     {
       title: '是否显示在表单',
       dataIndex: 'showInForm',
       key: 'showInForm',
       width: 200,
-      render: (showInForm) => (showInForm ? '是' : '否'),
+      render: (e, k) => k.showInForm || '-'
     },
     {
       title: '是否表单必填',
       dataIndex: 'required',
       key: 'required',
       width: 200,
-      render: (required) => (required ? '是' : '否'),
+      render: (e, k) => k.required || '-'
     },
     {
       title: '创建时间',

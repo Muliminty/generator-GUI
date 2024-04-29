@@ -18,11 +18,14 @@ import router from '../router';
 // import ModelTable from '../ModelTable';
 // import ModuleTable from '../ModuleTable';
 // import ModelPropsTable from '../ModelPropsTable';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 const AntdLayout = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [items, setItems] = useState([]);
-  const [key, setKey] = useState('/ModuleTable');
+  const [key, setKey] = useState(location.pathname);
+
+
   useEffect(() => {
     setItems(() => {
       return router[0].children.map((r) => {
@@ -63,6 +66,7 @@ const AntdLayout = () => {
             defaultSelectedKeys={[key]}
             items={items}
             onClick={({ key }) => {
+              console.log('key: ', key);
               setKey(key)
               navigate(key);
             }

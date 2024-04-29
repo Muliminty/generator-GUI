@@ -32,7 +32,7 @@ export const deleteModule = (params) => {
 // 新建模块
 
 export const addModule = (params) => {
-  console.log('params: ', params);
+
   return api.sendRequest({
     url: '/module',
     method: 'post',
@@ -75,6 +75,53 @@ export const getModels = (params) => {
       console.log('error: ', error);
     });
 }
+
+// 删除模块
+export const deleteModel = (params) => {
+  return api.sendRequest({
+    url: `/model/${params.id}`,
+    method: 'delete',
+  })
+    .then(response => {
+      return response.data
+    })
+    .catch(error => {
+      console.log('error: ', error);
+    });
+}
+
+// 新建模块
+
+export const addModel = (params) => {
+
+  return api.sendRequest({
+    url: '/model',
+    method: 'post',
+    params: { ...params }
+  })
+    .then(response => {
+      return response.data
+    })
+    .catch(error => {
+      console.log('error: ', error);
+    });
+}
+
+// 编辑模块
+export const editModel = ({ id, ...params }) => {
+  return api.sendRequest({
+    url: `/model/${id}`,
+    method: 'put',
+    params: { ...params }
+  })
+    .then(response => {
+      return response.data
+    })
+    .catch(error => {
+      console.log('error: ', error);
+    });
+}
+// -----------------------------------------
 
 export const getModelProps = (params) => {
   return api.sendRequest({

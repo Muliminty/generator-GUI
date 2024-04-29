@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from 'react'
 import './style.css'
 import ProTable from '@ant-design/pro-table';
 import { Button } from 'antd'
-import { getModels, getModule, deleteModel, addModel, editModel } from '../api/module'
+import { getModels, getModule, deleteModel, addModel, editModel, generateCode } from '../api/module'
 import { showPromiseConfirm } from '../component/showPromiseConfirm.jsx'
 import AddModal from '../component/AddModal.jsx'
 
@@ -56,6 +56,12 @@ function ModelTable() {
           setValue(record)
           setOpen(true)
         }} >编辑</Button>,
+        // eslint-disable-next-line react/jsx-key
+        <Button type='link' onClick={() => {
+          console.log('record: ', record);
+          const module = moduleData.find((m) => m.id === record.moduleId);
+          generateCode({ ...record, moduleName: `${module.name}` })
+        }}> 生成代码</Button>,
         // eslint-disable-next-line react/jsx-key
         <Button type='link' danger onClick={
           () => {
@@ -153,6 +159,7 @@ function ModelTable() {
         toolBarRender={() => [
           <Button key="button" type="primary" onClick={() => {
             setOpen(true)
+            setValue(null)
           }}>
             新建
           </Button>,

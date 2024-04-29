@@ -2,29 +2,61 @@ import { useRef, useEffect, useState } from 'react'
 import './style.css'
 import ProTable from '@ant-design/pro-table';
 import { Button } from 'antd'
-import { getModelProps } from '../api/module'
+import { getModelProps, getModels, deleteModelProps, addModelProps, editModelProps } from '../api/module'
+import { showPromiseConfirm } from '../component/showPromiseConfirm.jsx'
+import AddModal from '../component/AddModal.jsx'
+import { dataType } from '../enums/dataType.js'
 
 function ModelPropsTable() {
 
   const actionRef = useRef();
+
+
+  const [modelsData, setModelsData] = useState([]);
+
+  const fetchModelsData = async () => {
+    try {
+      const msg = await getModels({ page: 1, pageSize: 1000 });
+
+      setModelsData(msg.list);
+    } catch (error) {
+      setModelsData([]);
+    }
+  }
+
+  useEffect(() => {
+    fetchModelsData()
+  }, [])
+
+  const getDataTypeValueEnum = () => {
+    const valueEnum = dataType.reduce((acc, curr) => {
+      acc[curr.value] = { text: curr.text };
+      return acc;
+    }, {});
+
+    return valueEnum;
+  }
   const columns = [
-    // {
-    //   title: '模型属性ID',
-    //   dataIndex: 'id',
-    //   key: 'id',
-    //   width: 200,
-    // },
     {
       title: '模型ID',
       dataIndex: 'modelId',
       key: 'modelId',
       width: 200,
+      editable: true,
+      valueType: 'select',
+      render: (e, k) => {
+        const module = modelsData.find((m) => m.id === k.modelId);
+        return module ? module.engName : '-'
+      },
+      valueEnum: modelsData.reduce((acc, cur) => { acc[cur.id] = { text: cur.engName }; return acc }, {})
     },
     {
       title: '属性键',
-      dataIndex: 'key',
-      key: 'key',
+      dataIndex: 'engName',
+      key: 'engName',
       width: 200,
+      editable: true,
+      valueType: 'text',
       render: (e, k) => k.engName || '-'
     },
     {
@@ -32,24 +64,33 @@ function ModelPropsTable() {
       dataIndex: 'title',
       key: 'title',
       width: 200,
+      editable: true,
+      valueType: 'text',
     },
     {
       title: '数据类型',
       dataIndex: 'dataType',
       key: 'dataType',
       width: 200,
+      editable: true,
+      valueType: 'select',
+      valueEnum: getDataTypeValueEnum()
     },
     {
       title: '属性类型长度',
       dataIndex: 'dataLength',
       key: 'dataLength',
       width: 200,
+      editable: true,
+      valueType: 'text',
     },
     {
       title: '是否显示在搜索',
       dataIndex: 'showInSearch',
       key: 'showInSearch',
       width: 200,
+      editable: true,
+      valueType: 'switch',
       render: (e, k) => k.showInSearch || '-'
     },
     {
@@ -57,6 +98,9 @@ function ModelPropsTable() {
       dataIndex: 'showInForm',
       key: 'showInForm',
       width: 200,
+      editable: true,
+      valueType: 'switch',
+
       render: (e, k) => k.showInForm || '-'
     },
     {
@@ -64,6 +108,8 @@ function ModelPropsTable() {
       dataIndex: 'required',
       key: 'required',
       width: 200,
+      editable: true,
+      valueType: 'switch',
       render: (e, k) => k.required || '-'
     },
     {
@@ -71,22 +117,40 @@ function ModelPropsTable() {
       dataIndex: 'created_at',
       key: 'created_at',
       width: 200,
+      valueType: 'date',
     },
     {
       title: '操作',
       key: 'option',
-      width: 120,
+      width: 200,
       fixed: "right",
       valueType: 'option',
       // eslint-disable-next-line no-unused-vars
       render: (_, record) => [
         // eslint-disable-next-line react/jsx-key
-        <Button type='link'>编辑</Button>,
+        <Button type='link' onClick={() => {
+          setValue({ ...record, modelId: `${record.modelId}` })
+          setOpen(true)
+        }} >编辑</Button>,
+
         // eslint-disable-next-line react/jsx-key
-        <Button type='link' danger>删除</Button>,
+        <Button type='link' danger onClick={
+          () => {
+
+            showPromiseConfirm({
+              title: '确认删除？',
+              content: '删除后将无法恢复',
+              ok: async () => {
+                await deleteModelProps({ id: record.id })
+                actionRef.current?.reload()
+              }
+            })
+          }
+        }>删除</Button>,
       ],
     },
   ]
+
 
   const [searchHeight, setSearchHeight] = useState(0);
   const [collapsed, setCollapsed] = useState(true);
@@ -114,6 +178,7 @@ function ModelPropsTable() {
     defaultPageSize: 10,
     showSizeChanger: true,
   }
+
   const search = {
     span: 6,
     collapsed: collapsed, // 状态可控
@@ -123,20 +188,37 @@ function ModelPropsTable() {
     },
     defaultCollapsed: true,
   }
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
   return (
     <div className='TableDemo'>
-
+      <AddModal
+        title={value ? '编辑模块' : '新建模块'}
+        open={open}
+        value={value}
+        columns={columns}
+        ok={async (values) => {
+          value ? await editModelProps({ id: value.id, ...values }) : await addModelProps(values)
+          await actionRef.current?.reload()
+          setValue(null)
+          setOpen(false)
+        }}
+        cancel={() => {
+          setOpen(false)
+        }}
+      />
       <ProTable
         className='zk-pro-table-custom'
         columns={columns}
         actionRef={actionRef}
         pagination={pagination}
         toolBarRender={() => [
-          <Button key="button" type="primary">
+          <Button key="button" type="primary" onClick={() => {
+            setValue(null)
+            setOpen(true)
+          }}>
             新建
-          </Button>,
-          <Button key="button" type="primary">
-            导出
           </Button>,
         ]}
         scroll={scroll}
@@ -147,7 +229,7 @@ function ModelPropsTable() {
               page: params.current,
               pageSize: params.pageSize,
             });
-            console.log('msg: ', msg);
+
             return {
               data: msg.list,
               success: true, // 需要返回 true 表示成功

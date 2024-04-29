@@ -137,3 +137,63 @@ export const getModelProps = (params) => {
       console.log('error: ', error);
     });
 }
+
+// 删除模型属性
+export const deleteModelProps = (params) => {
+  return api.sendRequest({
+    url: `/modelProps/${params.id}`,
+    method: 'delete',
+  })
+    .then(response => {
+      return response.data
+    })
+    .catch(error => {
+      console.log('error: ', error);
+    });
+}
+
+// 新建模型属性
+
+export const addModelProps = (params) => {
+  return api.sendRequest({
+    url: '/modelProps',
+    method: 'post',
+    params: { ...params }
+  })
+    .then(response => {
+      return response.data
+    })
+    .catch(error => {
+      console.log('error: ', error);
+    });
+}
+
+// 编辑模型属性
+export const editModelProps = ({ id, ...params }) => {
+  return api.sendRequest({
+    url: `/modelProps/${id}`,
+    method: 'put',
+    params: { ...params }
+  })
+    .then(response => {
+      return response.data
+    })
+    .catch(error => {
+      console.log('error: ', error);
+    });
+}
+
+// 生成代码
+export const generateCode = (params) => {
+  return api.sendRequest({
+    url: '/model/generate',
+    method: 'post',
+    params: { ...params }
+  })
+    .then(response => {
+      return response.data
+    })
+    .catch(error => {
+      console.log('error: ', error);
+    });
+}

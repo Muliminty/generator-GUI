@@ -19,6 +19,7 @@ function ModelTable() {
       valueType: 'text',
       width: '25%',
       editable: true,
+      require: true
     },
     {
       title: '所属模块',
@@ -27,6 +28,7 @@ function ModelTable() {
       valueType: 'select',
       width: '25%',
       editable: true,
+      require: true,
       render: (e, k) => {
         const module = moduleData.find((m) => m.id === k.moduleId);
         return module ? module.name : '-'
@@ -40,6 +42,7 @@ function ModelTable() {
       valueType: 'text',
       width: '25%',
       editable: true,
+      require: true,
 
     },
 
@@ -53,33 +56,39 @@ function ModelTable() {
       render: (_, record) => [
         // eslint-disable-next-line react/jsx-key
         <Button type='link' onClick={() => {
+          record.moduleId = `${record.moduleId}`
+          console.log('record: ', record);
           setValue(record)
           setOpen(true)
         }} >编辑</Button>,
         // eslint-disable-next-line react/jsx-key
         <Button type='link' onClick={async () => {
-          const module = moduleData.find((m) => m.id === record.moduleId);
-          try {
-            const data = await generateCode({ ...record, moduleName: `${module.name}` })
+          showPromiseConfirm({
+            title: `点击确认生成${record.engName}代码`,
+            content: '',
+            ok: async () => {
+              const module = moduleData.find((m) => m.id === record.moduleId);
+              try {
+                const data = await generateCode({ ...record, moduleName: `${module.code}` })
 
-            const link = document.createElement('a');
-            const url = `http://${data.IP}:3000/${data.name}`
-            link.href = url;
+                const link = document.createElement('a');
+                const url = `http://${data.IP}:3000/${data.fileName}`
+                link.href = url;
 
-            // 模拟点击该链接，触发下载
-            link.click();
+                // 模拟点击该链接，触发下载
+                link.click();
 
-            // 清理 URL 对象
-            window.URL.revokeObjectURL(url);
-          } catch (error) {
-            console.log('Error generating code:', error);
-          }
-
+                // 清理 URL 对象
+                window.URL.revokeObjectURL(url);
+              } catch (error) {
+                console.log('Error generating code:', error);
+              }
+            }
+          })
         }}> 生成代码</Button>,
         // eslint-disable-next-line react/jsx-key
         <Button type='link' danger onClick={
           () => {
-            console.log('record: ', record);
             showPromiseConfirm({
               title: '确认删除？',
               content: '删除后将无法恢复',

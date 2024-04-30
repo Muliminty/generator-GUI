@@ -10,6 +10,7 @@ const AddModal = ({ title, open = false, columns = [], ok, cancel, value }) => {
     if (value === null) {
       form.resetFields();
     } else {
+      console.log('value: ', value);
       form.setFieldsValue(value);
     }
   }, [value, open, form]);
@@ -46,6 +47,7 @@ const AddModal = ({ title, open = false, columns = [], ok, cancel, value }) => {
         label: valueEnum[key].text
       }));
 
+      console.log('arr: ', arr);
       return arr;
     } catch (error) {
       return [];
@@ -64,7 +66,7 @@ const AddModal = ({ title, open = false, columns = [], ok, cancel, value }) => {
         <Form form={form} layout="vertical">
           {columns.map((column) => {
             if (column.editable === true) {
-              return <Form.Item key={column.key} label={column.title} name={column.dataIndex} rules={[{ required: false, message: `Please input ${column.title}!` }]}>
+              return <Form.Item key={column.key} label={column.title} name={column.dataIndex} rules={[{ required: column.require, message: ` ${column.title} 必填` }]}>
                 {column.valueType === 'text' && <Input />}
                 {column.valueType === 'switch' && <Switch />}
                 {column.valueType === 'select' &&

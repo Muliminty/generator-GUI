@@ -43,6 +43,7 @@ function ModelPropsTable() {
       key: 'modelId',
       width: 200,
       editable: true,
+      require: true,
       valueType: 'select',
       render: (e, k) => {
         const module = modelsData.find((m) => m.id === k.modelId);
@@ -56,6 +57,7 @@ function ModelPropsTable() {
       key: 'engName',
       width: 200,
       editable: true,
+      require: true,
       valueType: 'text',
       render: (e, k) => k.engName || '-'
     },
@@ -65,6 +67,7 @@ function ModelPropsTable() {
       key: 'title',
       width: 200,
       editable: true,
+      require: true,
       valueType: 'text',
     },
     {
@@ -73,6 +76,7 @@ function ModelPropsTable() {
       key: 'dataType',
       width: 200,
       editable: true,
+      require: true,
       valueType: 'select',
       valueEnum: getDataTypeValueEnum()
     },
@@ -81,6 +85,7 @@ function ModelPropsTable() {
       dataIndex: 'dataLength',
       key: 'dataLength',
       width: 200,
+      require: true,
       editable: true,
       valueType: 'text',
     },

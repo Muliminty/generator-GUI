@@ -22,6 +22,8 @@ function ModuleTable() {
       width: '40%',
       editable: true,
       // hideInSearch: true,
+      require: true,
+
     },
     {
       title: '模块编码',
@@ -30,6 +32,7 @@ function ModuleTable() {
       valueType: 'text',
       width: '40%',
       editable: true,
+      require: true,
       // hideInSearch: true,
     },
     {

@@ -13,15 +13,6 @@ function ModelTable() {
 
   const columns = [
     {
-      title: '英文名称',
-      dataIndex: 'engName',
-      key: 'engName',
-      valueType: 'text',
-      width: '25%',
-      editable: true,
-      require: true
-    },
-    {
       title: '所属模块',
       dataIndex: 'moduleId',
       key: 'moduleId',
@@ -36,12 +27,23 @@ function ModelTable() {
       valueEnum: moduleData.reduce((acc, cur) => { acc[cur.id] = { text: cur.name }; return acc }, {})
     },
     {
+      title: '英文名称',
+      dataIndex: 'engName',
+      key: 'engName',
+      valueType: 'text',
+      width: '25%',
+      editable: true,
+      hideInSearch: true,
+      require: true
+    },
+    {
       title: '中文描述',
       dataIndex: 'remark',
       key: 'remark',
       valueType: 'text',
       width: '25%',
       editable: true,
+      hideInSearch: true,
       require: true,
 
     },
@@ -109,6 +111,7 @@ function ModelTable() {
 
       setModuleData(msg.list);
     } catch (error) {
+      console.log('error: ', error);
       setModuleData([]);
     }
   }
@@ -194,6 +197,7 @@ function ModelTable() {
 
           try {
             const msg = await getModels({
+              ...params,
               page: params.current,
               pageSize: params.pageSize,
             });

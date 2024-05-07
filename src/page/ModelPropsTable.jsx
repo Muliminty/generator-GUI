@@ -59,6 +59,8 @@ function ModelPropsTable() {
       editable: true,
       require: true,
       valueType: 'text',
+      hideInSearch: true,
+
       render: (e, k) => k.engName || '-'
     },
     {
@@ -69,6 +71,8 @@ function ModelPropsTable() {
       editable: true,
       require: true,
       valueType: 'text',
+      hideInSearch: true,
+
     },
     {
       title: '数据类型',
@@ -78,6 +82,7 @@ function ModelPropsTable() {
       editable: true,
       require: true,
       valueType: 'select',
+      hideInSearch: true,
       valueEnum: getDataTypeValueEnum()
     },
     {
@@ -88,6 +93,7 @@ function ModelPropsTable() {
       require: true,
       editable: true,
       valueType: 'text',
+      hideInSearch: true,
     },
     {
       title: '是否显示在搜索',
@@ -96,6 +102,7 @@ function ModelPropsTable() {
       width: 200,
       editable: true,
       valueType: 'switch',
+      hideInSearch: true,
       render: (e, k) => k.showInSearch || '-'
     },
     {
@@ -105,7 +112,7 @@ function ModelPropsTable() {
       width: 200,
       editable: true,
       valueType: 'switch',
-
+      hideInSearch: true,
       render: (e, k) => k.showInForm || '-'
     },
     {
@@ -115,6 +122,7 @@ function ModelPropsTable() {
       width: 200,
       editable: true,
       valueType: 'switch',
+      hideInSearch: true,
       render: (e, k) => k.required || '-'
     },
     {
@@ -123,6 +131,7 @@ function ModelPropsTable() {
       key: 'created_at',
       width: 200,
       valueType: 'date',
+      hideInSearch: true,
     },
     {
       title: '操作',

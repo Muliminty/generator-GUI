@@ -21,8 +21,8 @@ function ModuleTable() {
       valueType: 'text',
       width: '40%',
       editable: true,
-      // hideInSearch: true,
       require: true,
+      hideInSearch: true,
 
     },
     {
@@ -33,7 +33,7 @@ function ModuleTable() {
       width: '40%',
       editable: true,
       require: true,
-      // hideInSearch: true,
+      hideInSearch: true,
     },
     {
       title: '操作',
@@ -51,7 +51,6 @@ function ModuleTable() {
         // eslint-disable-next-line react/jsx-key
         <Button type='link' danger onClick={
           () => {
-            console.log('record: ', record);
             showPromiseConfirm({
               title: '确认删除？',
               content: '删除后将无法恢复',
@@ -146,7 +145,6 @@ function ModuleTable() {
               pageSize: params.pageSize,
 
             });
-            console.log('msg: ', msg);
             return {
               data: msg.list,
               success: true, // 需要返回 true 表示成功

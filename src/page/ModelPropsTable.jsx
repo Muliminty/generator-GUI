@@ -231,11 +231,10 @@ function ModelPropsTable() {
         request={async (params) => {
           try {
             const msg = await getModelProps({
+              ...params,
               page: params.current,
               pageSize: params.pageSize,
             });
-            console.log('msg: ', msg);
-
             return {
               data: msg.list,
               success: true, // 需要返回 true 表示成功

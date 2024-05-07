@@ -41,11 +41,11 @@ export const dataType = [
     "selected": false,
     "img": null
   },
-  {
-    "text": "时间",
-    "value": "Time",
-    "css": null,
-    "selected": false,
-    "img": null
-  }
+  // {
+  //   "text": "时间",
+  //   "value": "Time",
+  //   "css": null,
+  //   "selected": false,
+  //   "img": null
+  // }
 ]

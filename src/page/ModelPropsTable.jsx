@@ -234,11 +234,12 @@ function ModelPropsTable() {
               page: params.current,
               pageSize: params.pageSize,
             });
+            console.log('msg: ', msg);
 
             return {
               data: msg.list,
               success: true, // 需要返回 true 表示成功
-              total: msg.total, // 如果使用分页，需要传入 total
+              total: msg.totalCount, // 如果使用分页，需要传入 total
             };
           } catch (error) {
             return {

@@ -19,17 +19,13 @@ const AddModal = ({ title, open = false, columns = [], ok, cancel, value }) => {
     setIsModalOpen(open);
   }, [open]);
 
-  const handleOk = () => {
-    form
-      .validateFields()
-      .then((values) => {
-        ok && ok(values, form.resetFields)
-      })
-      .catch((errorInfo) => {
-        console.log('errorInfo: ', errorInfo);
-
-
-      });
+  const handleOk = async () => {
+    try {
+      const values = await form.validateFields();
+      ok && ok(values, form.resetFields);
+    } catch (errorInfo) {
+      console.log('errorInfo: ', errorInfo);
+    }
   };
 
   const handleCancel = () => {

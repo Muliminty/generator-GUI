@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from 'react'
 import './style.css'
 import ProTable from '@ant-design/pro-table';
-import { Button } from 'antd'
+import { Button, message } from 'antd'
 import { getModels, getModule, deleteModel, addModel, editModel, generateCode } from '../api/module'
 import { showPromiseConfirm } from '../component/showPromiseConfirm.jsx'
 import AddModal from '../component/AddModal.jsx'
@@ -95,8 +95,20 @@ function ModelTable() {
               title: '确认删除？',
               content: '删除后将无法恢复',
               ok: async () => {
-                await deleteModel({ id: record.id })
-                actionRef.current?.reload()
+                try {
+                  let res = await deleteModel({ id: record.id })
+                  if (res.code === 'error') {
+                    message.error(res.message)
+                  }
+                  if (res.code === 'success') {
+                    message.success('删除成功')
+                  }
+                  actionRef.current?.reload()
+                } catch (error) {
+                  console.log('error: ', error.message);
+
+                }
+
               }
             })
           }

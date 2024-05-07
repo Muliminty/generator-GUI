@@ -25,7 +25,8 @@ export const deleteModule = (params) => {
       return response.data
     })
     .catch(error => {
-      console.log('error: ', error);
+      // 返回错误信息
+      return error.response.data
     });
 }
 
@@ -86,7 +87,8 @@ export const deleteModel = (params) => {
       return response.data
     })
     .catch(error => {
-      console.log('error: ', error);
+      // 返回错误信息
+      return error.response.data
     });
 }
 

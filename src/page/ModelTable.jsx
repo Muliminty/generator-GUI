@@ -27,7 +27,7 @@ function ModelTable() {
       valueEnum: moduleData.reduce((acc, cur) => { acc[cur.id] = { text: cur.name }; return acc }, {})
     },
     {
-      title: '英文名称',
+      title: '模型编码',
       dataIndex: 'engName',
       key: 'engName',
       valueType: 'text',
@@ -37,7 +37,7 @@ function ModelTable() {
       require: true
     },
     {
-      title: '中文描述',
+      title: '模型名称',
       dataIndex: 'remark',
       key: 'remark',
       valueType: 'text',

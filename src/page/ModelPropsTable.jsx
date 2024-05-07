@@ -95,36 +95,36 @@ function ModelPropsTable() {
       valueType: 'text',
       hideInSearch: true,
     },
-    {
-      title: '是否显示在搜索',
-      dataIndex: 'showInSearch',
-      key: 'showInSearch',
-      width: 200,
-      editable: true,
-      valueType: 'switch',
-      hideInSearch: true,
-      render: (e, k) => k.showInSearch || '-'
-    },
-    {
-      title: '是否显示在表单',
-      dataIndex: 'showInForm',
-      key: 'showInForm',
-      width: 200,
-      editable: true,
-      valueType: 'switch',
-      hideInSearch: true,
-      render: (e, k) => k.showInForm || '-'
-    },
-    {
-      title: '是否表单必填',
-      dataIndex: 'required',
-      key: 'required',
-      width: 200,
-      editable: true,
-      valueType: 'switch',
-      hideInSearch: true,
-      render: (e, k) => k.required || '-'
-    },
+    // {
+    //   title: '是否显示在搜索',
+    //   dataIndex: 'showInSearch',
+    //   key: 'showInSearch',
+    //   width: 200,
+    //   editable: true,
+    //   valueType: 'switch',
+    //   hideInSearch: true,
+    //   render: (e, k) => k.showInSearch || '-'
+    // },
+    // {
+    //   title: '是否显示在表单',
+    //   dataIndex: 'showInForm',
+    //   key: 'showInForm',
+    //   width: 200,
+    //   editable: true,
+    //   valueType: 'switch',
+    //   hideInSearch: true,
+    //   render: (e, k) => k.showInForm || '-'
+    // },
+    // {
+    //   title: '是否表单必填',
+    //   dataIndex: 'required',
+    //   key: 'required',
+    //   width: 200,
+    //   editable: true,
+    //   valueType: 'switch',
+    //   hideInSearch: true,
+    //   render: (e, k) => k.required || '-'
+    // },
     {
       title: '创建时间',
       dataIndex: 'created_at',

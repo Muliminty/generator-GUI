@@ -45,9 +45,17 @@ function ModelTable() {
       editable: true,
       hideInSearch: true,
       require: true,
-
     },
-
+    {
+      title: '错误码缩写',
+      dataIndex: 'properties',
+      key: 'properties',
+      valueType: 'text',
+      width: '25%',
+      editable: true,
+      hideInSearch: true,
+      require: true,
+    },
     {
       title: '操作',
       key: 'option',
@@ -71,7 +79,7 @@ function ModelTable() {
             ok: async () => {
               const module = moduleData.find((m) => m.id === record.moduleId);
               try {
-                const data = await generateCode({ ...record, moduleName: `${module.code}` })
+                const data = await generateCode({ ...record, moduleName: `${module.code}`, module })
 
                 const link = document.createElement('a');
                 const url = `http://${data.IP}:3000/${data.fileName}`

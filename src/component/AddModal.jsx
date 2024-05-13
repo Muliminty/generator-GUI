@@ -62,11 +62,12 @@ const AddModal = ({ title, open = false, columns = [], ok, cancel, value }) => {
         <Form form={form} layout="vertical">
           {columns.map((column) => {
             if (column.editable === true) {
-              return <Form.Item key={column.key} label={column.title} name={column.dataIndex} rules={[{ required: column.require, message: ` ${column.title} 必填` }]}>
-                {column.valueType === 'text' && <Input />}
+              return <Form.Item key={column.key} label={column.title} name={column.dataIndex} initialValue={column.initialValue}
+              rules={[{ required: column.require, message: `${column.title} 必填` }]}>
+                {column.valueType === 'text' && <Input placeholder={"请输入" + column.title + " " + (column.placeholder||'')}/>}
                 {column.valueType === 'switch' && <Switch />}
                 {column.valueType === 'select' &&
-                  <Select
+                  <Select placeholder={"请选择" + column.title + " " + (column.placeholder||'')}
                     options={valueEnumToArray(column.valueEnum)}
                   />
                 }

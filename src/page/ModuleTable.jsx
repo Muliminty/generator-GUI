@@ -19,8 +19,9 @@ function ModuleTable() {
       dataIndex: 'name',
       key: 'name',
       valueType: 'text',
-      width: '40%',
+      // width: '30%',
       editable: true,
+      placeholder:"比如：门禁模块",
       require: true,
       hideInSearch: true,
 
@@ -30,9 +31,10 @@ function ModuleTable() {
       dataIndex: 'code',
       key: 'code',
       valueType: 'text',
-      width: '40%',
+      // width: '40%',
       editable: true,
       require: true,
+      placeholder:"比如：acc",
       hideInSearch: true,
     },
     {
@@ -144,8 +146,8 @@ function ModuleTable() {
             新建
           </Button>,
         ]}
-        scroll={scroll}
-        search={search}
+        // scroll={scroll}
+        search={false}
         request={async (params) => {
 
           try {

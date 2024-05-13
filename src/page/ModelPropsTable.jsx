@@ -52,28 +52,31 @@ function ModelPropsTable() {
       valueEnum: modelsData.reduce((acc, cur) => { acc[cur.id] = { text: cur.engName }; return acc }, {})
     },
     {
-      title: '属性键',
-      dataIndex: 'engName',
-      key: 'engName',
-      width: 200,
-      editable: true,
-      require: true,
-      valueType: 'text',
-      hideInSearch: true,
-
-      render: (e, k) => k.engName || '-'
-    },
-    {
       title: '属性名称',
       dataIndex: 'title',
       key: 'title',
       width: 200,
       editable: true,
       require: true,
+      placeholder:"比如：门名称",
       valueType: 'text',
       hideInSearch: true,
 
     },
+    {
+      title: '属性键',
+      dataIndex: 'engName',
+      key: 'engName',
+      width: 200,
+      editable: true,
+      placeholder:"比如：doorName",
+      require: true,
+      valueType: 'text',
+      hideInSearch: true,
+
+      render: (e, k) => k.engName || '-'
+    },
+    
     {
       title: '数据类型',
       dataIndex: 'dataType',
@@ -81,6 +84,7 @@ function ModelPropsTable() {
       width: 200,
       editable: true,
       require: true,
+      placeholder:"",
       valueType: 'select',
       hideInSearch: true,
       valueEnum: getDataTypeValueEnum()
@@ -91,6 +95,8 @@ function ModelPropsTable() {
       key: 'dataLength',
       width: 200,
       require: true,
+      placeholder:"比如：50",
+      initialValue : 50,
       editable: true,
       valueType: 'text',
       hideInSearch: true,
@@ -235,7 +241,7 @@ function ModelPropsTable() {
             新建
           </Button>,
         ]}
-        scroll={scroll}
+        // scroll={scroll}
         search={search}
         request={async (params) => {
           try {

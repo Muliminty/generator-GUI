@@ -1,5 +1,5 @@
 import api from '../lib/request'
-
+import { message } from 'antd'
 export const getModule = (params) => {
   return api.sendRequest({
     url: '/module/page',
@@ -7,7 +7,6 @@ export const getModule = (params) => {
     params: { ...params }
   })
     .then(response => {
-
       return response.data
     })
     .catch(error => {
@@ -22,6 +21,12 @@ export const deleteModule = (params) => {
     method: 'delete',
   })
     .then(response => {
+      if (response.code === 'error') {
+        message.error(response.message)
+      }
+      if (response.code === 'success') {
+        message.success(response.message)
+      }
       return response.data
     })
     .catch(error => {

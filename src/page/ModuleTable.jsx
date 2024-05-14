@@ -58,17 +58,10 @@ function ModuleTable() {
               content: '删除后将无法恢复',
               ok: async () => {
                 try {
-                  let res = await deleteModule({ id: record.id })
-                  if (res.code === 'error') {
-                    message.error(res.message)
-                  }
-                  if (res.code === 'success') {
-                    message.success('删除成功')
-                  }
+                  await deleteModule({ id: record.id })
                   actionRef.current?.reload()
                 } catch (error) {
                   console.log('error: ', error.message);
-
                 }
               }
             })

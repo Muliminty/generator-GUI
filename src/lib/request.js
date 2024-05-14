@@ -12,7 +12,7 @@ function buildUrlWithParams(params) {
 const api = axios.create({
     // 设置基础的请求路径
     baseURL: BASEURL
-        // 可选：添加其他默认配置
+    // 可选：添加其他默认配置
 });
 
 // 请求拦截器：在请求发送之前执行

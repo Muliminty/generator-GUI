@@ -13,3 +13,29 @@ body {
   height: 100%;
   overflow: hidden;
 }
+
+* {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+*::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(153, 169, 191, 0.867);
+  border-radius: 4px;
+}
+
+/* 支持 Firefox 浏览器 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(153, 169, 191, .3) transparent;
+}

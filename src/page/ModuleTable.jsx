@@ -21,9 +21,9 @@ function ModuleTable() {
       valueType: 'text',
       // width: '30%',
       editable: true,
-      placeholder:"比如：门禁模块",
+      placeholder: "比如：门禁模块",
       require: true,
-      hideInSearch: true,
+      // hideInSearch: true,
 
     },
     {
@@ -34,8 +34,8 @@ function ModuleTable() {
       // width: '40%',
       editable: true,
       require: true,
-      placeholder:"比如：acc",
-      hideInSearch: true,
+      placeholder: "比如：acc",
+      // hideInSearch: true,
     },
     {
       title: '操作',
@@ -98,7 +98,7 @@ function ModuleTable() {
   }, [collapsed]);
 
 
-  const scroll = { y: `calc(100vh - (${searchHeight}px + 420px))` }
+  const scroll = { y: `calc(100vh - (${searchHeight}px + 400px))` }
   const pagination = {
     size: "default",
     defaultPageSize: 10,
@@ -146,13 +146,13 @@ function ModuleTable() {
             新建
           </Button>,
         ]}
-        // scroll={scroll}
-        search={false}
+        scroll={scroll}
+        search={search}
         request={async (params) => {
 
           try {
             const msg = await getModule({
-              code: params.code,
+              ...params,
               page: params.current,
               pageSize: params.pageSize,
 
